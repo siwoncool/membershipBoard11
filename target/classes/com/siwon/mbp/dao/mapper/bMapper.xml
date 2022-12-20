@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Board">
+<insert id="bWrite" parameterType="board">
+	INSERT INTO BOARD VALUES (BN_SEQ.NEXTVAL,#{boWriter},#{boTitle}
+	,#{boContent},SYSDATE,0,#{boFileName})
+</insert>
+	
+	
+<select id="bCount" resultType="int">
+ SELECT COUNT(*) FROM MEMBER 
+</select>
+<select id="bList" parameterType="paging" resultType="board">
+  SELECT * FROM ${boardCotegery}BLIST WHERE RN BETWEEN #{startRow} AND #{endRow}  
+ </select>
+ 
+<select id="bSearch" parameterType="search" resultType="board"> 
+SELECT * FROM BOARD WHERE ${category} LIKE '%'||#{keyword}||'%'
+ </select>
+<select id="bView" parameterType="int" resultType="board">
+ SELECT * FROM BOARD WHERE boNum = #{boNum} 
+ </select>
+  <!-- 조회수 증가 -->
+  <update id="bNum" parameterType="int">
+  	UPDATE BOARD SET BOHIT = BOHIT +1 WHERE BONUM = #{boNum}
+  </update>
+<update id="bModify" parameterType="board"> 
+UPDATE BOARD SET MEMPW = #{memPw} , MEMNAME = #{memName} , MEMBIRTH = #{memBirth}, MEMGENDER = #{memGender}, MEMEMAIL = #{memEmail}, MEMPHONE = #{memPhone} , MEMADDR = #{memAddr}, MEMPROFILENAME = #{memProfileName} WHERE MEMID = #{memId}
+ </update>
+</mapper>
+
+
+
+
+
